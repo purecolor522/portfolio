@@ -1,0 +1,51 @@
+========================================
+  陳怡安 · 產品經理作品集 — 使用說明
+========================================
+
+【怎麼打開】
+直接用瀏覽器打開 index.html（雙擊即可），不用安裝任何東西、不用連網路設定。
+建議用 Chrome 或 Edge。
+
+【檔案說明】
+  index.html  首頁（自我介紸、作品牆、能力、經歷、聯絡）
+  work.html   作品詳情頁模板（一個檔，服務所有作品）
+  data.js     ★ 你要改的就是這個 ★ 所有作品和經歷的內容都在這
+  說明.txt    這份說明
+
+【怎麼新增 / 修改作品】
+1. 用記事本或 VS Code 打開 data.js
+2. 找到 works = [ ... ]，每一個大括號 { } 就是一件作品
+3. 複製一整個 { ... } 區塊，貼在後面，改成你的新作品內容
+4. 存檔，重新整理 index.html 就會看到
+
+欄位意思：
+  id        網址用的英文代號（不能重複，例如 my-project-1）
+  title     作品名稱
+  category  分類：'design'=平面設計 / 'ai'=AI工具 / 'dashboard'=儀表板
+  tag       顯示用的分類標籤文字
+  blurb     首頁卡片上的一句話介紹
+  metric    一個亮點數字（例如「成交率 +18%」）
+  summary   詳情頁標題下的總結
+  role      你的角色
+  timeline  時間 / 花了多久
+  team      團隊組成
+  tools     用到的工具（用方括號和逗號分開）
+  problem   解決什麼問題（PM 面試最重要的一段，寫具體一點）
+  approach  做的步驟（每個 { step:'步驟名', text:'說明' }）
+  outcomes  成果數字（每個 { value:'數字', label:'說明' }）
+  seed      暫時的示意圖關鍵字
+  gallery   詳情頁的圖片關鍵字清單
+
+【怎麼換成自己的真實圖片】
+目前圖片是網路隨機示意圖。換成你的作品圖：
+1. 在資料夾裡建一個 images 子資料夾，放你的圖
+2. 在 data.js 把 seed 對應的地方，或直接到 index.html / work.html
+   把  https://picsum.photos/seed/xxx/800/600
+   改成  images/你的圖檔.jpg
+
+【記得替換的範例內容】
+- 名字「陳怡安」（在 index.html、work.html 各處）
+- 所有作品文字和數字（在 data.js）
+- Email、LinkedIn 連結（在 index.html）
+
+有問題再回來找我。
