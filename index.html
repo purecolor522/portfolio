@@ -109,6 +109,7 @@
       <div class="hidden md:flex items-center gap-8 text-[14px] text-muted">
         <a href="#work" class="hover:text-accent transition-colors">作品</a>
         <a href="#design" class="hover:text-accent transition-colors">設計</a>
+        <a href="#pm" class="hover:text-accent transition-colors">統籌</a>
         <a href="#capabilities" class="hover:text-accent transition-colors">能力</a>
         <a href="#about" class="hover:text-accent transition-colors">關於</a>
         <a href="#experience" class="hover:text-accent transition-colors">經歷</a>
@@ -134,6 +135,7 @@
       <nav class="max-w-content mx-auto px-5 py-2 flex flex-col text-[15px]">
         <a href="#work" class="py-3 border-b border-line/50 flex items-center gap-2.5"><span class="text-accent">&gt;</span> 作品</a>
         <a href="#design" class="py-3 border-b border-line/50 flex items-center gap-2.5"><span class="text-accent">&gt;</span> 設計</a>
+        <a href="#pm" class="py-3 border-b border-line/50 flex items-center gap-2.5"><span class="text-accent">&gt;</span> 統籌</a>
         <a href="#capabilities" class="py-3 border-b border-line/50 flex items-center gap-2.5"><span class="text-accent">&gt;</span> 能力</a>
         <a href="#about" class="py-3 border-b border-line/50 flex items-center gap-2.5"><span class="text-accent">&gt;</span> 關於</a>
         <a href="#experience" class="py-3 border-b border-line/50 flex items-center gap-2.5"><span class="text-accent">&gt;</span> 經歷</a>
@@ -218,6 +220,18 @@
           <p class="mt-4 text-muted leading-relaxed">活動主視覺、海報與邀請卡。從典雅燙金到活潑普普，依活動調性切換風格。</p>
         </div>
         <div id="design-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-10"></div>
+      </div>
+    </section>
+
+    <!-- ============================ 專案統籌（活動企劃 / PM） ============================ -->
+    <section id="pm" class="border-t border-line">
+      <div class="max-w-content mx-auto px-5 sm:px-8 py-20 sm:py-28 reveal">
+        <div class="mb-12">
+          <p class="text-[12px] tracking-[0.2em] text-accent mb-4">// 03 · project</p>
+          <h2 class="font-tp text-4xl sm:text-5xl font-medium tracking-tight">專案統籌</h2>
+          <p class="mt-4 text-muted leading-relaxed">活動企劃與現場執行——把很多變數和一群人，排成一條準時、順暢跑完的流程。</p>
+        </div>
+        <div id="pm-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-10"></div>
       </div>
     </section>
 
@@ -351,8 +365,9 @@
           <p class="mt-3 text-[12px] text-accent flex items-center gap-1.5 opacity-60 group-hover:opacity-100 transition-opacity">${w.direct && w.live ? 'open ↗' : `cat ./${w.id}`} <span class="group-hover:translate-x-0.5 transition-transform">${w.direct && w.live ? '' : '→'}</span></p>
         </div>
       </a>`;
-    document.getElementById('work-grid').innerHTML = works.filter((w) => w.category !== 'design').map(cardHTML).join('');
+    document.getElementById('work-grid').innerHTML = works.filter((w) => w.category !== 'design' && w.category !== 'event').map(cardHTML).join('');
     document.getElementById('design-grid').innerHTML = works.filter((w) => w.category === 'design').map(cardHTML).join('');
+    document.getElementById('pm-grid').innerHTML = works.filter((w) => w.category === 'event').map(cardHTML).join('');
 
     // ---------- 渲染經歷時間軸 ----------
     document.getElementById('timeline').innerHTML = experience.map((e, i) => `
