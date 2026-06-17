@@ -135,10 +135,7 @@
         <!-- 左：訊息 -->
         <div class="lg:col-span-7">
           <p class="text-[12px] tracking-[0.22em] text-accent mb-6">// product_manager</p>
-          <h1 class="font-tp text-[32px] sm:text-5xl lg:text-[56px] font-medium tracking-tight leading-[1.15]">
-            把模糊的需求，<br />
-            整理成<span class="text-accent">可信任</span>的產品。<span class="cur"></span>
-          </h1>
+          <h1 id="hero-h1" class="font-tp text-[32px] sm:text-5xl lg:text-[56px] font-medium tracking-tight leading-[1.15] min-h-[2.3em]"></h1>
           <p class="mt-7 text-[17px] leading-relaxed text-muted max-w-[44ch]">
             我是蘇雅軒。橫跨產品策略、平面設計與 AI 工具，擅長把雜亂的問題理清楚，做成簡單、好用、值得信賴的體驗。
           </p>
@@ -337,6 +334,42 @@
         </div>
       </div>
     `).join('');
+
+    // ---------- Hero 標題：打字機效果（逐字出現，像終端機在打字） ----------
+    (function typeHero() {
+      const h1 = document.getElementById('hero-h1');
+      if (!h1) return;
+      const segs = [
+        { t: '把模糊的需求，' },
+        { br: true },
+        { t: '整理成' },
+        { t: '可信任', cls: 'text-accent' },
+        { t: '的產品。' },
+      ];
+      let html = '';
+      segs.forEach((s) => {
+        if (s.br) { html += '<br/>'; return; }
+        for (const ch of s.t) html += `<span class="twc${s.cls ? ' ' + s.cls : ''}" style="visibility:hidden">${ch}</span>`;
+      });
+      h1.innerHTML = html + '<span class="cur" id="hero-cur"></span>';
+      const spans = [...h1.querySelectorAll('.twc')];
+      const cur = document.getElementById('hero-cur');
+      h1.prepend(cur);
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        spans.forEach((s) => (s.style.visibility = 'visible'));
+        h1.append(cur);
+        return;
+      }
+      let i = 0;
+      const tick = () => {
+        if (i >= spans.length) return;
+        spans[i].style.visibility = 'visible';
+        spans[i].after(cur);
+        i += 1;
+        setTimeout(tick, 88);
+      };
+      setTimeout(tick, 280);
+    })();
 
     // ---------- 進場揭露（IntersectionObserver） ----------
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
