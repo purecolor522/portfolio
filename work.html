@@ -10,32 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            bg: 'rgb(var(--bg) / <alpha-value>)',
-            surface: 'rgb(var(--surface) / <alpha-value>)',
-            ink: 'rgb(var(--ink) / <alpha-value>)',
-            muted: 'rgb(var(--muted) / <alpha-value>)',
-            line: 'rgb(var(--line) / <alpha-value>)',
-            accent: 'rgb(var(--accent) / <alpha-value>)',
-            'accent-hover': 'rgb(var(--accent-hover) / <alpha-value>)',
-          },
-          fontFamily: {
-            mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', '"PingFang TC"', '"Microsoft JhengHei"', '"Noto Sans TC"', 'monospace'],
-            sans: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', '"PingFang TC"', '"Microsoft JhengHei"', '"Noto Sans TC"', 'monospace'],
-            serif: ['"Taipei Sans TC"', '"PingFang TC"', '"Noto Sans TC"', 'sans-serif'],
-            tp: ['"Taipei Sans TC"', '"PingFang TC"', '"Noto Sans TC"', 'sans-serif'],
-          },
-          maxWidth: { content: '1200px', prose: '760px' },
-        },
-      },
-    };
-  </script>
+  <!-- 預先編譯的 Tailwind（取代 CDN，載入更快） -->
+  <link rel="stylesheet" href="dist.css" />
 
   <script>
     (function () {
