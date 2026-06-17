@@ -179,7 +179,7 @@
 
       // 作品圖：設計作品用完整圖片（不裁切）；其他用 16:9 示意圖
       const visualBlock = shots
-        ? `<div class="${w.category === 'design' ? 'max-w-[720px] mx-auto' : ''}">` + shots.map((src, i) => `
+        ? `<div class="${w.category === 'design' ? 'max-w-[720px] mx-auto' : 'max-w-[860px] mx-auto'}">` + shots.map((src, i) => `
             <div class="mt-6 overflow-hidden rounded-2xl border border-line bg-surface ${i === 0 ? '' : 'reveal'}">
               <img src="${src}" alt="${w.title}${shots.length > 1 ? ' ' + (i + 1) : ''}" class="w-full h-auto" loading="${i === 0 ? 'eager' : 'lazy'}" />
             </div>`).join('') + `</div>`
