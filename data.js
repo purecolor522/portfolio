@@ -16,7 +16,7 @@ window.works = [
     tag: '全棧電商',
     blurb: '正韓選品電商全棧：顧客前台、老闆後台 CMS、綠界金流與營收儀表板，從前到後一條龍自己做。',
     metric: '前台→金流一條龍',
-    images: ['images/yebuda-shop.jpg'],
+    images: ['images/yebuda-shop.jpg', 'images/yebuda-admin-products.jpg'],
     live: 'https://yebuda-shop.fly.dev/',
     repo: 'https://github.com/purecolor522/Yebuda2026',
     // 旗艦案例：保留詳情頁（不設 direct），讓人讀完整 case study 再連到線上版／原始碼
