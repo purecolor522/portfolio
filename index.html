@@ -67,7 +67,9 @@
 
     /* 數據標籤：滑入時終端解碼 + 反白黑框 */
     .deco { display: inline-block; padding: 1px 7px; margin-left: -7px; white-space: nowrap; transition: background-color .12s, color .12s; }
-    .stat { cursor: default; }
+    .stat { cursor: pointer; }
+    .stat p:first-child { transition: color .12s; }
+    .stat:hover p:first-child { color: rgb(var(--accent)); }
     .stat:hover .deco { background: rgb(var(--ink)); color: rgb(var(--bg)); }
 
     /* ASCII 字元肖像 */
@@ -223,22 +225,22 @@
 
       <!-- 數據帶：細線分隔，不用卡片盒子 -->
       <div class="mt-20 sm:mt-24 grid grid-cols-2 md:grid-cols-4 gap-y-8 border-t border-line pt-10">
-        <div class="stat md:border-l border-line md:pl-6">
+        <a href="#work" class="stat block md:border-l border-line md:pl-6">
           <p class="font-mono text-4xl sm:text-5xl tracking-tight font-medium">23</p>
           <p class="mt-1.5 text-[13px] text-muted"><span class="deco" data-final="上線產品功能">上線產品功能</span></p>
-        </div>
-        <div class="stat md:border-l border-line md:pl-6">
+        </a>
+        <a href="#design" class="stat block md:border-l border-line md:pl-6">
           <p class="font-mono text-4xl sm:text-5xl tracking-tight font-medium">40<span class="text-accent">+</span></p>
           <p class="mt-1.5 text-[13px] text-muted"><span class="deco" data-final="平面設計專案">平面設計專案</span></p>
-        </div>
-        <div class="stat md:border-l border-line md:pl-6">
+        </a>
+        <a href="#work" class="stat block md:border-l border-line md:pl-6">
           <p class="font-mono text-4xl sm:text-5xl tracking-tight font-medium">8</p>
           <p class="mt-1.5 text-[13px] text-muted"><span class="deco" data-final="自製 AI 工具">自製 AI 工具</span></p>
-        </div>
-        <div class="stat md:border-l border-line md:pl-6">
+        </a>
+        <a href="#experience" class="stat block md:border-l border-line md:pl-6">
           <p class="font-mono text-4xl sm:text-5xl tracking-tight font-medium">6.2<span class="text-accent">yr</span></p>
           <p class="mt-1.5 text-[13px] text-muted"><span class="deco" data-final="產品與設計年資">產品與設計年資</span></p>
-        </div>
+        </a>
       </div>
     </section>
 
