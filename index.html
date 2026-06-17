@@ -196,7 +196,7 @@
         </a>
         <a href="#experience" class="stat block md:border-l border-line md:pl-6">
           <p class="font-mono text-4xl sm:text-5xl tracking-tight font-medium">6.2<span class="text-accent">yr</span></p>
-          <p class="mt-1.5 text-[13px] text-muted"><span class="deco" data-final="產品與設計年資">產品與設計年資</span></p>
+          <p class="mt-1.5 text-[13px] text-muted"><span class="deco" data-final="產品與專案執行">產品與專案執行</span></p>
         </a>
       </div>
     </section>
@@ -350,7 +350,7 @@
 
     // ---------- 渲染作品卡（依類別分到兩個區段：非設計 → 產品與網頁；設計 → 平面設計） ----------
     const cardHTML = (w) => `
-      <a href="${w.direct && w.live ? w.live : `work.html?id=${w.id}`}"${w.direct && w.live ? ' target="_blank" rel="noopener"' : ''} class="work-card group block border border-line hover:border-accent bg-surface/30 transition-colors">
+      <a id="work-${w.id}" href="${w.direct && w.live ? w.live : `work.html?id=${w.id}`}"${w.direct && w.live ? ' target="_blank" rel="noopener"' : ''} class="work-card group block scroll-mt-28 border border-line hover:border-accent bg-surface/30 transition-colors">
         <div class="overflow-hidden ${w.category === 'design' ? 'aspect-[3/4]' : 'aspect-[4/3]'} border-b border-line">
           <img src="${w.images ? w.images[0] : `https://picsum.photos/seed/${w.seed}/800/600`}" alt="${w.title}"
                class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500" loading="lazy" />
@@ -370,17 +370,20 @@
     document.getElementById('pm-grid').innerHTML = works.filter((w) => w.category === 'event').map(cardHTML).join('');
 
     // ---------- 渲染經歷時間軸 ----------
-    document.getElementById('timeline').innerHTML = experience.map((e, i) => `
+    document.getElementById('timeline').innerHTML = experience.map((e, i) => {
+      const seeLink = `<a href="#work-${e.workId}" class="text-accent underline decoration-dotted underline-offset-2 hover:opacity-70 transition-opacity">（見作品）</a>`;
+      const desc = e.workId ? e.desc.replace('（見作品）', seeLink) : e.desc;
+      return `
       <div class="grid grid-cols-12 gap-4 reveal">
         <div class="col-span-12 sm:col-span-3 pb-2 sm:pb-0">
           <p class="text-[14px] text-muted tabular-nums"><span class="text-accent">▸</span> ${e.period}</p>
         </div>
         <div class="col-span-12 sm:col-span-9 pb-10 ${i === experience.length - 1 ? '' : 'border-b'} border-line">
           <h3 class="font-tp text-xl font-medium tracking-tight">${e.role} <span class="text-muted font-normal text-[15px]">· ${e.company}</span></h3>
-          <p class="mt-2 text-[14.5px] leading-relaxed text-muted max-w-[58ch]">${e.desc}</p>
+          <p class="mt-2 text-[14.5px] leading-relaxed text-muted max-w-[58ch]">${desc}</p>
         </div>
-      </div>
-    `).join('');
+      </div>`;
+    }).join('');
 
     // ---------- Hero 標題：打字機效果（逐字出現，像終端機在打字） ----------
     (function typeHero() {
