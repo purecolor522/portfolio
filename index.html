@@ -89,6 +89,11 @@
     /* 開頭不用動畫：揭露直接顯示 */
     .reveal { opacity: 1 !important; transform: none !important; }
 
+    /* 數據標籤：滑入時終端解碼 + 反白黑框 */
+    .deco { display: inline-block; padding: 1px 7px; margin-left: -7px; white-space: nowrap; transition: background-color .12s, color .12s; }
+    .stat { cursor: default; }
+    .stat:hover .deco { background: rgb(var(--ink)); color: rgb(var(--bg)); }
+
     /* 閃爍游標 */
     .cur { display: inline-block; width: .5ch; height: 1.02em; margin-left: .14em; transform: translateY(.14em);
       background: rgb(var(--accent)); animation: blink 1.15s steps(1) infinite; }
@@ -108,7 +113,7 @@
   <header class="sticky top-0 z-50 backdrop-blur-md bg-bg/80 border-b border-line/70">
     <nav class="max-w-content mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
       <a href="#top" class="flex items-center gap-2.5 font-medium tracking-tight">
-        <span class="grid place-items-center w-8 h-8 rounded-full bg-accent text-bg font-tp text-[15px] leading-none pt-0.5">雅</span>
+        <span class="text-xl font-bold tracking-tight leading-none">C:\</span>
         <span class="text-[15px]">蘇雅軒<span class="cur"></span></span>
       </a>
       <div class="hidden md:flex items-center gap-8 text-[14px] text-muted">
@@ -166,21 +171,21 @@
 
       <!-- 數據帶：細線分隔，不用卡片盒子 -->
       <div class="mt-20 sm:mt-24 grid grid-cols-2 md:grid-cols-4 gap-y-8 border-t border-line pt-10">
-        <div class="md:border-l border-line md:pl-6">
+        <div class="stat md:border-l border-line md:pl-6">
           <p class="font-mono text-4xl sm:text-5xl tracking-tight font-medium">23</p>
-          <p class="mt-1.5 text-[13px] text-muted">上線產品功能</p>
+          <p class="mt-1.5 text-[13px] text-muted"><span class="deco" data-final="上線產品功能">上線產品功能</span></p>
         </div>
-        <div class="md:border-l border-line md:pl-6">
+        <div class="stat md:border-l border-line md:pl-6">
           <p class="font-mono text-4xl sm:text-5xl tracking-tight font-medium">40<span class="text-accent">+</span></p>
-          <p class="mt-1.5 text-[13px] text-muted">平面設計專案</p>
+          <p class="mt-1.5 text-[13px] text-muted"><span class="deco" data-final="平面設計專案">平面設計專案</span></p>
         </div>
-        <div class="md:border-l border-line md:pl-6">
+        <div class="stat md:border-l border-line md:pl-6">
           <p class="font-mono text-4xl sm:text-5xl tracking-tight font-medium">8</p>
-          <p class="mt-1.5 text-[13px] text-muted">自製 AI 工具</p>
+          <p class="mt-1.5 text-[13px] text-muted"><span class="deco" data-final="自製 AI 工具">自製 AI 工具</span></p>
         </div>
-        <div class="md:border-l border-line md:pl-6">
+        <div class="stat md:border-l border-line md:pl-6">
           <p class="font-mono text-4xl sm:text-5xl tracking-tight font-medium">6.2<span class="text-accent">yr</span></p>
-          <p class="mt-1.5 text-[13px] text-muted">產品與設計年資</p>
+          <p class="mt-1.5 text-[13px] text-muted"><span class="deco" data-final="產品與設計年資">產品與設計年資</span></p>
         </div>
       </div>
     </section>
@@ -369,6 +374,44 @@
         setTimeout(tick, 88);
       };
       setTimeout(tick, 280);
+    })();
+
+    // ---------- 數據標籤：滑鼠移入時的終端解碼動畫 ----------
+    (function () {
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const CH = '!<>-_\\/[]{}=+*^?#$%&0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      document.querySelectorAll('.stat').forEach((stat) => {
+        const el = stat.querySelector('.deco');
+        if (!el) return;
+        const finalText = el.dataset.final;
+        el.style.minWidth = el.offsetWidth + 'px'; // 鎖定寬度避免抖動
+        if (reduce) return;
+        let raf;
+        const run = () => {
+          cancelAnimationFrame(raf);
+          const q = [...finalText].map(() => {
+            const start = Math.floor(Math.random() * 14);
+            return { start, end: start + 18 + Math.floor(Math.random() * 26), char: null };
+          });
+          let f = 0;
+          const up = () => {
+            let out = '', done = 0;
+            for (let i = 0; i < q.length; i++) {
+              const c = q[i];
+              if (f >= c.end) { out += finalText[i]; done += 1; }
+              else if (f >= c.start) {
+                if (c.char === null || Math.random() < 0.35) c.char = CH[Math.floor(Math.random() * CH.length)];
+                out += c.char;
+              } else out += ' ';
+            }
+            el.textContent = out;
+            if (done < q.length) { f += 1; raf = requestAnimationFrame(up); }
+            else el.textContent = finalText;
+          };
+          up();
+        };
+        stat.addEventListener('mouseenter', run);
+      });
     })();
 
     // ---------- 進場揭露（IntersectionObserver） ----------
