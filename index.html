@@ -6,10 +6,10 @@
   <title>蘇雅軒 · 產品經理作品集</title>
   <meta name="description" content="蘇雅軒 · 產品經理。橫跨產品策略、平面設計與 AI 工具，把雜亂的需求整理成清楚、好用、值得信任的產品。" />
 
-  <!-- 字型：Sentient（編輯感襯線，僅用於標題）＋ General Sans（內文與介面） -->
-  <link rel="preconnect" href="https://api.fontshare.com" />
-  <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
-  <link href="https://api.fontshare.com/v2/css?f[]=sentient@400,500,700&f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet" />
+  <!-- 字型：JetBrains Mono（終端等寬，內文與介面）＋ 台北黑體（中文大標題） -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -27,9 +27,10 @@
             'accent-hover': 'rgb(var(--accent-hover) / <alpha-value>)',
           },
           fontFamily: {
-            serif: ['Sentient', 'Georgia', 'serif'],
-            sans: ['General Sans', 'system-ui', 'sans-serif'],
-            tp: ['"Taipei Sans TC"', '"Noto Sans TC"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', '"PingFang TC"', '"Microsoft JhengHei"', '"Noto Sans TC"', 'monospace'],
+            sans: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', '"PingFang TC"', '"Microsoft JhengHei"', '"Noto Sans TC"', 'monospace'],
+            serif: ['"Taipei Sans TC"', '"PingFang TC"', '"Noto Sans TC"', 'sans-serif'],
+            tp: ['"Taipei Sans TC"', '"PingFang TC"', '"Noto Sans TC"', 'sans-serif'],
           },
           maxWidth: { content: '1200px' },
         },
@@ -40,8 +41,8 @@
   <!-- 先套用主題，避免閃白 -->
   <script>
     (function () {
-      const s = localStorage.getItem('theme');
-      if (s === 'dark' || (!s && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      // 終端風：預設深色，除非使用者手動選了淺色
+      if (localStorage.getItem('theme') !== 'light') {
         document.documentElement.classList.add('dark');
       }
     })();
@@ -54,44 +55,47 @@
       font-style: normal; font-weight: 400; font-display: swap;
       src: url('fonts/TaipeiSansTC-headline.woff2') format('woff2');
     }
+    /* 淺色＝白紙終端；深色＝黑底終端（預設） */
     :root {
-      --bg: 250 248 246;
+      --bg: 245 245 242;
       --surface: 255 255 255;
-      --ink: 29 26 23;
-      --muted: 110 102 94;
-      --line: 233 227 220;
-      --accent: 168 74 94;
-      --accent-hover: 142 58 76;
+      --ink: 24 24 27;
+      --muted: 112 112 118;
+      --line: 219 219 214;
+      --accent: 17 122 80;
+      --accent-hover: 14 100 66;
     }
     .dark {
-      --bg: 21 18 15;
-      --surface: 30 26 22;
-      --ink: 243 239 233;
-      --muted: 166 156 146;
-      --line: 51 45 39;
-      --accent: 210 120 138;
-      --accent-hover: 224 144 160;
+      --bg: 11 12 14;
+      --surface: 20 21 25;
+      --ink: 224 226 224;
+      --muted: 128 134 140;
+      --line: 38 40 46;
+      --accent: 122 226 165;
+      --accent-hover: 150 236 186;
     }
 
-    body { font-feature-settings: "ss01"; }
-    .font-serif { letter-spacing: -0.01em; }
+    /* 終端底：固定細線網格 */
+    body {
+      font-feature-settings: "ss01";
+      background-image: linear-gradient(rgb(var(--line) / .4) 1px, transparent 1px),
+                        linear-gradient(90deg, rgb(var(--line) / .4) 1px, transparent 1px);
+      background-size: 46px 46px; background-position: -1px -1px; background-attachment: fixed;
+    }
 
-    /* 進場揭露：預設位移＋透明，進入視窗後加上 .in */
-    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1); }
-    .reveal.in { opacity: 1; transform: none; }
+    /* 終端風方角：覆蓋圓角 utility */
+    .rounded-lg, .rounded-xl, .rounded-2xl, .rounded-3xl, .rounded-full { border-radius: 3px !important; }
 
-    /* 作品卡過濾切換 */
-    .work-card { transition: opacity .35s ease, transform .35s ease; }
-    .work-card.hide { display: none; }
+    /* 開頭不用動畫：揭露直接顯示 */
+    .reveal { opacity: 1 !important; transform: none !important; }
 
-    /* 細緻紙紋：固定、不吃捲動效能 */
-    .grain { position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: .4;
-      background-image: radial-gradient(rgba(0,0,0,.045) 1px, transparent 1px); background-size: 4px 4px; }
-    .dark .grain { background-image: radial-gradient(rgba(255,255,255,.035) 1px, transparent 1px); }
+    /* 閃爍游標 */
+    .cur { display: inline-block; width: .5ch; height: 1.02em; margin-left: .14em; transform: translateY(.14em);
+      background: rgb(var(--accent)); animation: blink 1.15s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
 
     @media (prefers-reduced-motion: reduce) {
-      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
-      .work-card { transition: none !important; }
+      .cur { animation: none; }
       html { scroll-behavior: auto; }
     }
   </style>
@@ -104,8 +108,8 @@
   <header class="sticky top-0 z-50 backdrop-blur-md bg-bg/80 border-b border-line/70">
     <nav class="max-w-content mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
       <a href="#top" class="flex items-center gap-2.5 font-medium tracking-tight">
-        <span class="grid place-items-center w-8 h-8 rounded-full bg-accent text-white font-serif text-[15px] leading-none pt-0.5">雅</span>
-        <span class="text-[15px]">蘇雅軒</span>
+        <span class="grid place-items-center w-8 h-8 rounded-full bg-accent text-bg font-tp text-[15px] leading-none pt-0.5">雅</span>
+        <span class="text-[15px]">蘇雅軒<span class="cur"></span></span>
       </a>
       <div class="hidden md:flex items-center gap-8 text-[14px] text-muted">
         <a href="#work" class="hover:text-accent transition-colors">作品</a>
@@ -130,10 +134,10 @@
       <div class="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
         <!-- 左：訊息 -->
         <div class="lg:col-span-7">
-          <p class="text-[12px] uppercase tracking-[0.24em] text-accent font-medium mb-6">Product Manager</p>
+          <p class="text-[12px] tracking-[0.22em] text-accent mb-6">// product_manager</p>
           <h1 class="font-tp text-[32px] sm:text-5xl lg:text-[56px] font-medium tracking-tight leading-[1.15]">
             把模糊的需求，<br />
-            整理成<span class="text-accent">可信任</span>的產品。
+            整理成<span class="text-accent">可信任</span>的產品。<span class="cur"></span>
           </h1>
           <p class="mt-7 text-[17px] leading-relaxed text-muted max-w-[44ch]">
             我是蘇雅軒。橫跨產品策略、平面設計與 AI 工具，擅長把雜亂的問題理清楚，做成簡單、好用、值得信賴的體驗。
@@ -156,8 +160,8 @@
               <img src="https://picsum.photos/seed/yian-pm-portrait-studio/900/1125" alt="蘇雅軒 工作肖像" class="w-full h-full object-cover" loading="eager" />
             </div>
             <div class="absolute -bottom-5 -left-3 sm:-left-6 rounded-xl bg-surface border border-line shadow-xl shadow-black/5 px-5 py-4">
-              <p class="text-[11px] uppercase tracking-[0.18em] text-muted">目前狀態</p>
-              <p class="mt-1 text-[15px] font-medium">開放新機會 · 台北 / 遠端</p>
+              <p class="text-[11px] tracking-[0.18em] text-muted">&gt; status</p>
+              <p class="mt-1 text-[15px] font-medium"><span class="text-accent">●</span> 開放新機會 · 台北 / 遠端</p>
             </div>
           </div>
         </div>
@@ -166,19 +170,19 @@
       <!-- 數據帶：細線分隔，不用卡片盒子 -->
       <div class="mt-20 sm:mt-24 grid grid-cols-2 md:grid-cols-4 gap-y-8 border-t border-line pt-10">
         <div class="md:border-l border-line md:pl-6">
-          <p class="font-serif text-4xl sm:text-5xl tracking-tight">23</p>
+          <p class="font-mono text-4xl sm:text-5xl tracking-tight font-medium">23</p>
           <p class="mt-1.5 text-[13px] text-muted">上線產品功能</p>
         </div>
         <div class="md:border-l border-line md:pl-6">
-          <p class="font-serif text-4xl sm:text-5xl tracking-tight">40<span class="text-accent">+</span></p>
+          <p class="font-mono text-4xl sm:text-5xl tracking-tight font-medium">40<span class="text-accent">+</span></p>
           <p class="mt-1.5 text-[13px] text-muted">平面設計專案</p>
         </div>
         <div class="md:border-l border-line md:pl-6">
-          <p class="font-serif text-4xl sm:text-5xl tracking-tight">8</p>
+          <p class="font-mono text-4xl sm:text-5xl tracking-tight font-medium">8</p>
           <p class="mt-1.5 text-[13px] text-muted">自製 AI 工具</p>
         </div>
         <div class="md:border-l border-line md:pl-6">
-          <p class="font-serif text-4xl sm:text-5xl tracking-tight">6.2<span class="text-accent">yr</span></p>
+          <p class="font-mono text-4xl sm:text-5xl tracking-tight font-medium">6.2<span class="text-accent">yr</span></p>
           <p class="mt-1.5 text-[13px] text-muted">產品與設計年資</p>
         </div>
       </div>
@@ -187,6 +191,7 @@
     <!-- ============================ 產品與網頁作品（JS 由 data.js 渲染） ============================ -->
     <section id="work" class="max-w-content mx-auto px-5 sm:px-8 py-20 sm:py-28 reveal">
       <div class="mb-12 max-w-[52ch]">
+        <p class="text-[12px] tracking-[0.2em] text-accent mb-4">// 01 · work</p>
         <h2 class="font-tp text-4xl sm:text-5xl font-medium tracking-tight">產品與網頁</h2>
         <p class="mt-4 text-muted leading-relaxed">網頁應用、自動化工具與互動教學。每件作品都從一個真實的問題出發。</p>
       </div>
@@ -197,6 +202,7 @@
     <section id="design" class="border-t border-line">
       <div class="max-w-content mx-auto px-5 sm:px-8 py-20 sm:py-28 reveal">
         <div class="mb-12 max-w-[52ch]">
+          <p class="text-[12px] tracking-[0.2em] text-accent mb-4">// 02 · design</p>
           <h2 class="font-tp text-4xl sm:text-5xl font-medium tracking-tight">平面設計</h2>
           <p class="mt-4 text-muted leading-relaxed">活動主視覺、海報與邀請卡。從典雅燙金到活潑普普，依活動調性切換風格。</p>
         </div>
@@ -209,9 +215,12 @@
       <div class="max-w-content mx-auto px-5 sm:px-8 py-20 sm:py-28">
         <div class="grid lg:grid-cols-12 gap-10 lg:gap-16">
           <div class="lg:col-span-4">
-            <h2 class="font-tp text-4xl sm:text-5xl font-medium tracking-tight lg:sticky lg:top-28 reveal">
-              我怎麼<br class="hidden lg:block" />工作。
-            </h2>
+            <div class="lg:sticky lg:top-28">
+              <p class="text-[12px] tracking-[0.2em] text-accent mb-4">// process</p>
+              <h2 class="font-tp text-4xl sm:text-5xl font-medium tracking-tight reveal">
+                我怎麼<br class="hidden lg:block" />工作。
+              </h2>
+            </div>
           </div>
           <div class="lg:col-span-8 divide-y divide-line border-t border-line">
             <div class="py-8 reveal">
@@ -240,6 +249,7 @@
           </div>
         </div>
         <div class="lg:col-span-7 order-1 lg:order-2 reveal">
+          <p class="text-[12px] tracking-[0.2em] text-accent mb-4">// about</p>
           <h2 class="font-tp text-4xl sm:text-5xl font-medium tracking-tight leading-tight">
             設計背景出身，<br />在做產品的路上學會用 AI。
           </h2>
@@ -254,6 +264,7 @@
     <!-- ============================ 經歷：時間軸（JS 由 data.js 渲染） ============================ -->
     <section id="experience" class="border-t border-line">
       <div class="max-w-content mx-auto px-5 sm:px-8 py-20 sm:py-28">
+        <p class="text-[12px] tracking-[0.2em] text-accent mb-4 reveal">// log</p>
         <h2 class="font-tp text-4xl sm:text-5xl font-medium tracking-tight reveal">經歷</h2>
         <div id="timeline" class="mt-12 max-w-4xl"></div>
       </div>
@@ -262,6 +273,7 @@
     <!-- ============================ 聯絡 ============================ -->
     <section id="contact" class="max-w-content mx-auto px-5 sm:px-8 pb-24">
       <div class="border-t border-line pt-20 text-center reveal">
+        <p class="text-[12px] tracking-[0.2em] text-accent mb-5">&gt; contact</p>
         <h2 class="font-tp text-4xl sm:text-6xl font-medium tracking-tight max-w-[20ch] mx-auto leading-[1.1]">
           一起把點子，做成值得信任的產品。
         </h2>
@@ -295,20 +307,20 @@
 
     // ---------- 渲染作品卡（依類別分到兩個區段：非設計 → 產品與網頁；設計 → 平面設計） ----------
     const cardHTML = (w) => `
-      <a href="work.html?id=${w.id}" class="work-card group block">
-        <div class="overflow-hidden rounded-2xl border border-line ${w.category === 'design' ? 'aspect-[3/4]' : 'aspect-[4/3]'} mb-4">
+      <a href="work.html?id=${w.id}" class="work-card group block border border-line hover:border-accent bg-surface/30 transition-colors">
+        <div class="overflow-hidden ${w.category === 'design' ? 'aspect-[3/4]' : 'aspect-[4/3]'} border-b border-line">
           <img src="${w.images ? w.images[0] : `https://picsum.photos/seed/${w.seed}/800/600`}" alt="${w.title}"
                class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500" loading="lazy" />
         </div>
-        <div class="flex items-center justify-between gap-3 mb-2">
-          <span class="text-[12px] uppercase tracking-wider text-accent font-medium">${w.tag}</span>
-          <span class="text-[12px] text-muted">${w.metric}</span>
+        <div class="p-4">
+          <div class="flex items-center justify-between gap-3 mb-2 text-[12px]">
+            <span class="text-accent">[${w.tag}]</span>
+            <span class="text-muted">${w.metric}</span>
+          </div>
+          <h3 class="font-tp text-lg font-medium tracking-tight group-hover:text-accent transition-colors">${w.title}</h3>
+          <p class="mt-2 text-[13.5px] leading-relaxed text-muted">${w.blurb}</p>
+          <p class="mt-3 text-[12px] text-accent flex items-center gap-1.5 opacity-60 group-hover:opacity-100 transition-opacity">cat ./${w.id} <span class="group-hover:translate-x-0.5 transition-transform">→</span></p>
         </div>
-        <h3 class="font-serif text-xl font-medium tracking-tight group-hover:text-accent transition-colors flex items-center gap-1.5">
-          ${w.title}
-          <svg class="w-4 h-4 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
-        </h3>
-        <p class="mt-1.5 text-[14px] leading-relaxed text-muted">${w.blurb}</p>
       </a>`;
     document.getElementById('work-grid').innerHTML = works.filter((w) => w.category !== 'design').map(cardHTML).join('');
     document.getElementById('design-grid').innerHTML = works.filter((w) => w.category === 'design').map(cardHTML).join('');
@@ -317,11 +329,11 @@
     document.getElementById('timeline').innerHTML = experience.map((e, i) => `
       <div class="grid grid-cols-12 gap-4 reveal">
         <div class="col-span-12 sm:col-span-3 pb-2 sm:pb-0">
-          <p class="text-[14px] text-muted tabular-nums">${e.period}</p>
+          <p class="text-[14px] text-muted tabular-nums"><span class="text-accent">▸</span> ${e.period}</p>
         </div>
         <div class="col-span-12 sm:col-span-9 pb-10 ${i === experience.length - 1 ? '' : 'border-b'} border-line">
-          <h3 class="font-serif text-xl font-medium tracking-tight">${e.role} <span class="text-muted font-sans font-normal text-[16px]">· ${e.company}</span></h3>
-          <p class="mt-2 text-[15px] leading-relaxed text-muted max-w-[58ch]">${e.desc}</p>
+          <h3 class="font-tp text-xl font-medium tracking-tight">${e.role} <span class="text-muted font-normal text-[15px]">· ${e.company}</span></h3>
+          <p class="mt-2 text-[14.5px] leading-relaxed text-muted max-w-[58ch]">${e.desc}</p>
         </div>
       </div>
     `).join('');
